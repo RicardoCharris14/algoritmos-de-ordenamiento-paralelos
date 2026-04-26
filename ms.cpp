@@ -20,7 +20,7 @@ void sequentialMergeSort(std::vector<int>& arr, int left, int right) {
     merge(arr, left, mid, right);
 }
 
-void parallelMergeSort(std::vector<int>& arr, int left, int right) {
+void _parallelMergeSort(std::vector<int>& arr, int left, int right) {
     if (left >= right) return;
 
     if (right - left < UMBRAL) {
@@ -31,12 +31,20 @@ void parallelMergeSort(std::vector<int>& arr, int left, int right) {
     int mid = left + (right - left) / 2;
 
     #pragma omp task shared(arr) firstprivate(left, mid)
-    parallelMergeSort(arr, left, mid);
+    _parallelMergeSort(arr, left, mid);
 
     #pragma omp task shared(arr) firstprivate(mid, right)
-    parallelMergeSort(arr, mid + 1, right);
+    _parallelMergeSort(arr, mid + 1, right);
 
     #pragma omp taskwait
 
     merge(arr, left, mid, right);
+}
+
+void parallelMergeSort(std::vector<int>& arr) {
+    #pragma omp parallel
+    {
+        #pragma omp single
+        _parallelMergeSort(arr, 0, arr.size() - 1);
+    }
 }
