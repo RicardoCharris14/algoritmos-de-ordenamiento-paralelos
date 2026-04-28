@@ -27,6 +27,7 @@ static std::vector<int> partition(
     std::vector<int> pv2(t + 1);
     pv2[0] = v2li - 1;
 
+    #pragma omp taskloop shared(v1, v2, pv2, v1li, v1ri, v2li, v2ri, step)
     for (int i = 1; i <= t; i++) {
         int idx = v1li + i * step;
         if (idx > v1ri) idx = v1ri;
