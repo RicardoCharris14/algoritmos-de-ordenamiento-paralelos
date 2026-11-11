@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cstdlib>
 #include <queue>
-#include "merge.h"
 
 const int UMBRAL = 1000;
 
@@ -91,7 +90,7 @@ void _parallelkWayMergeSort(std::vector<int>& arr, int l, int r, int k) {
     kWayMerge(arr, l, r, div_points);
 }
 
-void parallelkWayMergeSortt(std::vector<int>& arr, int k) {
+void parallelkWayMergeSort(std::vector<int>& arr, int k) {
     #pragma omp parallel
     {
         #pragma omp single
